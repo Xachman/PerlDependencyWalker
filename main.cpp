@@ -15,27 +15,35 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm> // for std::find
+#include <iterator> // for std::begin, std::end
 #include "FilePath.h"
 #include "DirectoryWalker.h"
+#include "Util.h"
 
 
 using namespace std;
 
 class MainDirectoryWalker : public DirectoryWalker {
+private:
 public:
 
     void callback(File file) {
-        cout << file.getFilePath().getName() << endl;
-        string line;
-        ifstream myfile(file.getFilePath().getPath().c_str());
-        if (myfile) // same as: if (myfile.good())
-        {
-            while (getline(myfile, line)) // same as: while (getline( myfile, line ).good())
-            {
-                cout << line << endl;
-            }
-            myfile.close();
-        } else cout << "fooey\n";
+        size_t dot = file.getFilePath().getName().find_last_of(".");
+        string extention = file.getFilePath().getName().substr(dot+1);
+        string allowedExtentions[] = {"pl","pm"};
+        cout << Util::findInArray(allowedExtentions, extention) << endl;
+        
+//        string line;
+//        ifstream myfile(file.getFilePath().getPath().c_str());
+//        if (myfile) // same as: if (myfile.good())
+//        {
+//            while (getline(myfile, line)) // same as: while (getline( myfile, line ).good())
+//            {
+//                //cout << file.getFilePath().getName() << endl;
+//            }
+//            myfile.close();
+//        } 
     }
 };
 
