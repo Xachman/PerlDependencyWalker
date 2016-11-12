@@ -32,9 +32,8 @@ std::vector<std::string> Util::expload(std::string const & s, char delim) {
     return result;
 }
 
-bool Util::findInArray(std::string stringAr[], std::string value) {
-    std::cout << sizeof(stringAr) << std::endl;
-    for (int i = 0; i < (sizeof(stringAr)/sizeof(*stringAr)); i++) {
+bool Util::findInArray(std::vector<std::string> stringAr, std::string value) {
+    for (int i = 0; i < stringAr.size(); i++) {
         
         if (Util::trim(stringAr[i]) == Util::trim(value))
             return true;

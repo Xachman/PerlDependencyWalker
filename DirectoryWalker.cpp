@@ -28,8 +28,6 @@ void DirectoryWalker::process(FilePath filePath) {
             }
             
             FilePath subFilePath = FilePath(filePath.addSeparator()+files[i]);
-            
-            
             if(subFilePath.isDirectory()) {
                 this->process(subFilePath);
             }else {

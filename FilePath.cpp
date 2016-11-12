@@ -23,10 +23,10 @@
 #include <bits/stdio_lim.h>
 #include "Util.h"
 
-
 FilePath::FilePath() {
-    
+
 }
+
 FilePath::FilePath(const FilePath& orig) {
     this->path = orig.path;
     this->name = orig.name;
@@ -52,20 +52,10 @@ std::string FilePath::getName() {
 }
 
 bool FilePath::isDirectory() {
-    DIR *dirptr;
-
-    if (access ( this->path.c_str(), F_OK ) != -1 ) {
-        // file exists
-        if ((dirptr = opendir (this->path.c_str())) != NULL) {
-            closedir (dirptr);
-        } else {
-            return false; /* d exists, but not dir */
-        }
-    } else {
-        return false;     /* d does not exist */
-    }
-
-    return true;
+    struct stat statbuf;
+    if (lstat(this->getPath().c_str(), &statbuf) != 0)
+        return 0;
+    return S_ISDIR(statbuf.st_mode);
 }
 
 std::vector<std::string> FilePath::getFiles() {
