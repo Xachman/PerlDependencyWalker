@@ -21,7 +21,7 @@ public:
     Util();
     static std::vector<std::string> expload(std::string const & s, char delim);
     static bool findInArray(std::vector<std::string> stringAr, std::string value);
-    static std::string trim(std::string str, const char* t = " \t\n\r\f\v");
+    static std::string trim(std::string str, const char* t = " \t\n\r");
 private:
 
 };

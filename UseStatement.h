@@ -13,13 +13,24 @@
 
 #ifndef USESTATEMENT_H
 #define USESTATEMENT_H
+#include <string>
+#include <vector>
 
 class UseStatement {
 public:
     UseStatement();
     UseStatement(const UseStatement& orig);
     virtual ~UseStatement();
+    UseStatement(std::string statement);
+    std::string toString();
 private:
+    std::string inputStatement;
+    std::string module;
+    std::vector<std::string> methods;
+    std::string trimUse(std::string subject);
+    std::string parseModule(std::string subject);
+    bool checkBadKeywords(std::string subject);
+    std::vector<std::string> parseMethods(std::string subject);
 
 };
 

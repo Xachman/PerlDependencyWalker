@@ -22,6 +22,7 @@
 #include "FilePath.h"
 #include "DirectoryWalker.h"
 #include "Util.h"
+#include "UseStatement.h"
 
 
 using namespace std;
@@ -49,7 +50,7 @@ public:
                     try {
                         stringstream useStatement;
                         useStatement << lookForUse(line) << endl;
-                        if(useStatement.str().compare("") > 0) {
+                        if(useStatement.str().compare("false") != 1 ) {
                             cout << useStatement.str() << endl;
                         }
                         
@@ -67,11 +68,13 @@ public:
     }
 
     string lookForUse(string line) {
+        string newLine = Util::trim(line);
         stringstream match;
-        match << line.at(0) << line.at(1) << line.at(2) << line.at(3) << endl;
+        match << newLine.at(0) << newLine.at(1) << newLine.at(2) << newLine.at(3) << endl;
         
         if(match.str().compare("use ") == 1) {
-            return line;
+            UseStatement useStatement(newLine);
+            return useStatement.toString();
         }
         
         if(checkMatch(line, " use ")) {
@@ -84,7 +87,7 @@ public:
 //            }
 //            
 //        }
-        return "";
+        return "false";
     }
     
     bool checkMatch(string input, string match) {
