@@ -26,7 +26,7 @@
 
 
 using namespace std;
-
+vector<UseStatement*> useStatements;
 class MainDirectoryWalker : public DirectoryWalker {
 private:
 public:
@@ -46,48 +46,28 @@ public:
             {
                 while (getline(myfile, line)) // same as: while (getline( myfile, line ).good())
                 {
-
                     try {
-                        stringstream useStatement;
-                        useStatement << lookForUse(line) << endl;
-                        if(useStatement.str().compare("false") != 1 ) {
-                            cout << useStatement.str() << endl;
+                        UseStatement *useStatement = new UseStatement(line);
+                        bool isUsed = false;
+                        for(int i = 0; i < useStatements.size(); i++) {
+                            if(useStatement->getModule().compare(useStatements[i]->getModule()) == 0) {
+                                isUsed = true;
+                            }
+                        }
+                        if(!isUsed) {
+                            useStatements.push_back(useStatement);
                         }
                         
-
-                        //line.at
-                        //    std::string use =  line.at(0)+""+line.at(1)+""+line.at(2);
-                        //                cout << use << endl;
-                    } catch (const std::out_of_range& e) {
+                    } catch(char const* e) {
+                       //cout << e << endl;
                     }
+                        
+                       
                 }
                 myfile.close();
             }
         }
 
-    }
-
-    string lookForUse(string line) {
-        string newLine = Util::trim(line);
-        stringstream match;
-        match << newLine.at(0) << newLine.at(1) << newLine.at(2) << newLine.at(3) << endl;
-        
-        if(match.str().compare("use ") == 1) {
-            UseStatement useStatement(newLine);
-            return useStatement.toString();
-        }
-        
-        if(checkMatch(line, " use ")) {
-            
-        }
-//        for(int i = 0; i < line.length(); i++) {
-//            match << line.at(i);
-//            if(checkMatch(match.str(), "use ")) {
-//                
-//            }
-//            
-//        }
-        return "false";
     }
     
     bool checkMatch(string input, string match) {
@@ -111,6 +91,10 @@ int main(int argc, char** argv) {
 
     MainDirectoryWalker dw = MainDirectoryWalker();
     dw.process(filePath);
+    
+    for(int i = 0; i < useStatements.size(); i++) {
+        cout << useStatements[i]->getModule() << endl;
+    }
     return 0;
 }
 

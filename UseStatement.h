@@ -23,6 +23,7 @@ public:
     virtual ~UseStatement();
     UseStatement(std::string statement);
     std::string toString();
+    std::string getModule();
 private:
     std::string inputStatement;
     std::string module;
